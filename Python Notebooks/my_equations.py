@@ -91,8 +91,7 @@ def get_stationary(zmax=30, tmax=100, d=1.0, I0=300.0, dz=0.1):
     A_next = A_0 * np.ones(Nz) 
     Rb_next = Rb_0 * np.ones(Nz)
     Rd_next = Rd_0 * np.ones(Nz)
-    Rs_next = np.zeros(Nt)
-
+    Rs_next = 0
     # iterate next solution over time until tmax
     for t in time_steps:
         A_next, Rb_next, Rd_next, Rs_next = next_step(z_grid, A_next, Rb_next, Rd_next, Rs_next, dz, dt, d)
