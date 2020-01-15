@@ -51,11 +51,11 @@ def next_step(z, A, Rb, Rd, Rs, dz, dt, d):
     Rd_diffusion = d * (Rd[2:]-2*Rd[1:-1] + Rd[:-2]) / (dz**2)
     
     A_next[1:-1] = A[1:-1] + dt * ( pp*A[1:-1] -lbg*A[1:-1] - A_drift + A_diffusion )
-    A_next[0] = 4*d/(2*v*dz + 3*d)*A_next[1] - d/(2*v*dz + 3*d)*A_next[2] 
+    A_next[0] = d/(2*v*dz + 3*d)*(4*A_next[1] - A_next[2] )
     A_next[-1] = (4*A_next[-2] - A_next[-3])/3
     
     Rb_next[1:-1] = Rb[1:-1] + dt * (rrho*A[1:-1] -lbg*Rb[1:-1] - Rb_drift + Rb_diffusion )
-    Rb_next[0] = 4*d/(2*v*dz + 3*d)*Rb_next[1] - d/(2*v*dz + 3*d)*Rb_next[2] 
+    Rb_next[0] = d/(2*v*dz + 3*d)*( 4*Rb_next[1] - Rb_next[2] )
     Rb_next[-1] = (4*Rb_next[-2] - Rb_next[-3])/3
     
     Rs_next = Rs + dt*(v*Rb[-1] - r*Rs)
@@ -64,8 +64,8 @@ def next_step(z, A, Rb, Rd, Rs, dz, dt, d):
     Rd_next[0] = (4*Rd_next[1] - Rd_next[2])/3 
     Rd_next[-1] = (2*r*dz*Rs_next + 4*d*Rd_next[-2] - d*Rd_next[-3])/(3*d)
     
-    
     return A_next, Rb_next, Rd_next, Rs_next
+    
     
 def get_stationary(zmax=30, tmax=100, d=1.0, I0=300.0, dz=0.1):
     """ Obtains stationary distrbution via finite difference methods. \nA, Rb, Rd, Rs = equations.get_stationary(zmax=30, tmax=100, d=1.0, I0=300.0, dz=0.1) """
@@ -118,13 +118,13 @@ def get_time_evolution(zmax=10.0, tmax=10.0, d=1.0, I0=300.0, dz=0.1):
     A = np.zeros((Nz,Nt))
     Rb = np.zeros((Nz,Nt))
     Rd = np.zeros((Nz,Nt))
+    Rs = np.zeros(Nt)
     
     # Create homogenous initial conditions with values as specified in Jaeger et al. 2010
     A[:,0] = A_0 * np.ones(Nz) 
     Rb[:,0] = Rb_0 * np.ones(Nz)
     Rd[:,0] = Rd_0 * np.ones(Nz)
-    Rs = np.zeros(Nt)
-
+    
     # begin loop
     A_next,Rb_next,Rd_next, Rs_next = A[:,0], Rb[:,0], Rd[:,0], Rs[0]
     i = 1
