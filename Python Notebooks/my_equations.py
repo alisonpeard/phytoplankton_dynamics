@@ -32,10 +32,10 @@ def rho(q, Rd):
     """Specific algal uptake ("feeding") rate"""
     return rhomax * (qmax-q)/(qmax-qmin) * ( Rd/(m + Rd) )
 
-def next_step(z, A, Rb, Rd, Rs, dz, dt, d):
+def next_step(z, A, Rb, Rd, Rs, dz, dt, d, I_0=I0):
     """Calculates next step for input arrays of length zmax"""
     
-    II = I(z,A)
+    II = I(z,A,I_0)
     q = Rb[1:-1] / A[1:-1]
     pp = p(II[1:-1],q)
     rrho = rho(q,Rd[1:-1])
