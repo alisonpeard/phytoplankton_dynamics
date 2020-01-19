@@ -68,10 +68,10 @@ def next_step(z, A, Rb, Rd, Rs, dz, dt, d, I_0=I0):
     return A_next, Rb_next, Rd_next, Rs_next
     
     
-def get_stationary(zmax=30, tmax=100, d=1.0, I0=300.0, dz=0.1):
+def get_stationary(zmax=30, tmax=100, d=1.0, I0=300.0, dz=0.1, dt_ratio = 1/1000):
     """ Obtains stationary distrbution via finite difference methods. \nA, Rb, Rd, Rs = equations.get_stationary(zmax=30, tmax=100, d=1.0, I0=300.0, dz=0.1) """
     
-    dt = dz/1000
+    dt = dz*dt_ratio
     Nz = int(zmax/dz)
     Nt = int(tmax/ (1000*dt) )
 
@@ -100,10 +100,10 @@ def get_stationary(zmax=30, tmax=100, d=1.0, I0=300.0, dz=0.1):
     # return final values
     return A_next, Rb_next, Rd_next,Rs_next
 
-def get_time_evolution(zmax=10.0, tmax=10.0, d=1.0, I0=300.0, dz=0.1):
+def get_time_evolution(zmax=10.0, tmax=10.0, d=1.0, I0=300.0, dz=0.1,dt_ratio=1/1000):
     """Return matrices showing time evolution of A, Rb, Rd and Rs. \nA, Rb, Rd, Rs, z_grid, time_steps, Nz, Nt = my_equations.get_time_evolution(zmax=10.0, tmax=10.0, d=1.0, I0=300.0, dz=0.1) \nNote: this function is quite slow."""
     
-    dt = dz/1000
+    dt = dz*dt_ratio
     Nz = int(zmax/dz)
     Nt = int(tmax/ (1000*dt) )
 
