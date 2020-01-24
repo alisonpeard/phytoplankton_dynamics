@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 
 # define default coefficients
@@ -153,3 +154,7 @@ def get_R(Rd,Rb):
             R[i,j] = Rd[i,j] + Rb[i,j]
     return R
     
+def get_I(z,A):
+    A_df = pd.DataFrame(A)
+    I_df = A_df.apply(lambda x : I(z_grid,x), axis=0)
+    return I_df.to_numpy()
