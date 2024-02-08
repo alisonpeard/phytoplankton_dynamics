@@ -158,3 +158,8 @@ def get_I(z,A):
     A_df = pd.DataFrame(A)
     I_df = A_df.apply(lambda x : I(z_grid,x), axis=0)
     return I_df.to_numpy()
+
+def get_rho(Rb, A, Rd):
+    """Get specific algal uptake ("feeding") rate"""
+    q = Rb / A
+    return rhomax * (qmax-q)/(qmax-qmin) * ( Rd/(m + Rd) )
